@@ -19,7 +19,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PrettyJsonPrinterTest {
     private ObjectMapper mapper;
@@ -62,7 +64,7 @@ public class PrettyJsonPrinterTest {
                 )
                 .build();
 
-        Approvals.verify(prettyPrint(order));
+        Approvals.verify(filterOut(prettyPrint(order), "id", "description"));
     }
 
     private String prettyPrint(Object object) {
@@ -71,6 +73,13 @@ public class PrettyJsonPrinterTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    String filterOut(final String statements, final String... fields) {
+        final List<String> fieldList = Arrays.asList(fields);
+        return Arrays.stream(statements.split("\n"))
+                .filter(line -> fieldList.stream().noneMatch(line::contains))
+                .collect(Collectors.joining("\n"));
     }
 }
 

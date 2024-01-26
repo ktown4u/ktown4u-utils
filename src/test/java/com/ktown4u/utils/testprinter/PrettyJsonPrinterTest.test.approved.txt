@@ -1,21 +1,14 @@
 {
-  "id" : null,
   "lineItems" : [ {
-    "id" : null,
     "quantity" : 2,
     "product" : {
-      "id" : null,
       "name" : "coffee",
-      "description" : null,
       "price" : 1000
     }
   }, {
-    "id" : null,
     "quantity" : 1,
     "product" : {
-      "id" : null,
       "name" : "Learning Spring Boot 2.0",
-      "description" : null,
       "price" : 30000
     }
   } ]

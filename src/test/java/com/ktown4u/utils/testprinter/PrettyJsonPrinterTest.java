@@ -21,10 +21,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.joining;
 
 public class PrettyJsonPrinterTest {
     private ObjectMapper mapper;
+
     @BeforeEach
     void setUp() {
         mapper = new ObjectMapper();
@@ -64,22 +66,21 @@ public class PrettyJsonPrinterTest {
                 )
                 .build();
 
-        Approvals.verify(filterOut(prettyPrint(order), "id", "description"));
+        Approvals.verify(prettyPrint(order).stream()
+                .filter(line -> !line.contains("id"))
+                .filter(line -> !line.contains("description"))
+                .collect(joining("\n"))
+        );
     }
 
-    private String prettyPrint(Object object) {
+    private List<String> prettyPrint(Object object) {
         try {
-            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+            return Arrays.asList(
+                    mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)
+                            .split("\n"));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    String filterOut(final String statements, final String... fields) {
-        final List<String> fieldList = Arrays.asList(fields);
-        return Arrays.stream(statements.split("\n"))
-                .filter(line -> fieldList.stream().noneMatch(line::contains))
-                .collect(Collectors.joining("\n"));
     }
 }
 

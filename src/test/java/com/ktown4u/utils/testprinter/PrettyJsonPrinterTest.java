@@ -31,6 +31,10 @@ public class PrettyJsonPrinterTest {
 
     @BeforeEach
     void setUp() {
+        createMapper();
+    }
+
+    private ObjectMapper createMapper() {
         mapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -43,6 +47,8 @@ public class PrettyJsonPrinterTest {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); // Enable visibility for fields
 
         mapper.registerModule(javaTimeModule);
+
+        return mapper;
     }
 
     @Test

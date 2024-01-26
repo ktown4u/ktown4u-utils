@@ -1,0 +1,1 @@
+Order(id=null, lineItems=[OrderLineItem(id=null, quantity=2, product=Product(id=null, name=coffee, description=null, price=1000)), OrderLineItem(id=null, quantity=1, product=Product(id=null, name=Learning Spring Boot 2.0, description=null, price=30000))])

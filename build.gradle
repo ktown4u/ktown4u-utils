@@ -30,6 +30,10 @@ dependencies {
     // objectMapper
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.16.1'
+
+    // approvaltests
+    testImplementation 'com.approvaltests:approvaltests:22.3.3'
+
 }
 
 tasks.named('test') {

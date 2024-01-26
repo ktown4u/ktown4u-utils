@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.ktown4u.utils.testprinter.OrderLineItemBuilder.anOrderLineItem;
+import static com.ktown4u.utils.testprinter.ProductBuilder.aProduct;
 import static java.util.stream.Collectors.joining;
 
 public class PrettyJsonPrinterTest {
@@ -46,22 +48,18 @@ public class PrettyJsonPrinterTest {
     @Test
     public void test() {
         Order order = OrderBuilder.anOrder()
-                .orderLineItem(
-                        OrderLineItemBuilder.anOrderLineItem()
-                                .quantity(2L) // 여기에서 수량을 지정
-                                .product(
-                                        ProductBuilder.aProduct()
-                                                .name("coffee")
-                                                .price("1000")
-                                )
-                )
-                .orderLineItem(
-                        OrderLineItemBuilder.anOrderLineItem()
-                                .quantity(1L) // 여기에서 수량을 지정
-                                .product(
-                                        ProductBuilder.aProduct()
-                                                .name("Learning Spring Boot 2.0")
-                                                .price("30000")
+                .orderLineItems(
+                        anOrderLineItem()
+                                .quantity(2L)
+                                .product(aProduct()
+                                        .name("coffee")
+                                        .price("1000")
+                                ),
+                        anOrderLineItem()
+                                .quantity(1L)
+                                .product(aProduct()
+                                        .name("Learning Spring Boot 2.0")
+                                        .price("30000")
                                 )
                 )
                 .build();
@@ -93,8 +91,10 @@ class OrderBuilder {
         return this;
     }
 
-    public OrderBuilder orderLineItem(OrderLineItemBuilder lineItemBuilder) {
-        this.lineItems.add(lineItemBuilder.build());
+    public OrderBuilder orderLineItems(OrderLineItemBuilder... lineItemBuilders) {
+        for (OrderLineItemBuilder lineItemBuilder : lineItemBuilders) {
+            this.lineItems.add(lineItemBuilder.build());
+        }
         return this;
     }
 
@@ -149,18 +149,9 @@ class ProductBuilder {
     private String description;
     private BigDecimal price;
 
-    public ProductBuilder id(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public ProductBuilder name(String name) {
         this.name = name;
-        return this;
-    }
-
-    public ProductBuilder description(String description) {
-        this.description = description;
         return this;
     }
 

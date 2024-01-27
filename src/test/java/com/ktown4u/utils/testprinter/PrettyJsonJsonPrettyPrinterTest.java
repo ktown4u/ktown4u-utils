@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
+import static com.ktown4u.utils.testprinter.JsonPrettyPrinter.outLinesIncluding;
 import static com.ktown4u.utils.testprinter.JsonPrettyPrinter.prettyPrint;
 import static com.ktown4u.utils.testprinter.OrderLineItemBuilder.anOrderLineItem;
 import static com.ktown4u.utils.testprinter.ProductBuilder.aProduct;
@@ -38,10 +38,6 @@ public class PrettyJsonJsonPrettyPrinterTest {
                 .filter(outLinesIncluding("description"))
                 .collect(joining("\n"))
         );
-    }
-
-    private static Predicate<String> outLinesIncluding(String id) {
-        return line -> !line.contains(id);
     }
 }
 

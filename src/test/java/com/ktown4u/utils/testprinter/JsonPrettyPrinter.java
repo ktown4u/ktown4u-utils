@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class JsonPrettyPrinter {
     private static final ObjectMapper mapper;
@@ -43,5 +44,9 @@ public class JsonPrettyPrinter {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Predicate<String> outLinesIncluding(String fieldNameToExclude) {
+        return line -> !line.contains(fieldNameToExclude);
     }
 }

@@ -18,14 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class JsonPrettyPrinter {
-    private ObjectMapper mapper;
+    private static final ObjectMapper mapper;
 
-    public JsonPrettyPrinter() {
-        mapper = createMapper();
-    }
-
-    private ObjectMapper createMapper() {
-        ObjectMapper mapper = new ObjectMapper();
+    static {
+        mapper = new ObjectMapper();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -37,11 +33,9 @@ public class JsonPrettyPrinter {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); // Enable visibility for fields
 
         mapper.registerModule(javaTimeModule);
-
-        return mapper;
     }
 
-    public List<String> prettyPrint(Object object) {
+    public static List<String> prettyPrint(Object object) {
         try {
             return Arrays.asList(
                     mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object)

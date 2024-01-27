@@ -1,7 +1,6 @@
 package com.ktown4u.utils.testprinter;
 
 import org.approvaltests.Approvals;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -9,18 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import static com.ktown4u.utils.testprinter.JsonPrettyPrinter.prettyPrint;
 import static com.ktown4u.utils.testprinter.OrderLineItemBuilder.anOrderLineItem;
 import static com.ktown4u.utils.testprinter.ProductBuilder.aProduct;
 import static java.util.stream.Collectors.joining;
 
 public class PrettyJsonJsonPrettyPrinterTest {
-    private static JsonPrettyPrinter printer;
-
-    @BeforeAll
-    static void beforeAll() {
-        printer = new JsonPrettyPrinter();
-    }
-
     @Test
     public void test() {
         Order order = OrderBuilder.anOrder()
@@ -40,14 +33,14 @@ public class PrettyJsonJsonPrettyPrinterTest {
                 )
                 .build();
 
-        Approvals.verify(printer.prettyPrint(order).stream()
+        Approvals.verify(prettyPrint(order).stream()
                 .filter(outLinesIncluding("id"))
                 .filter(outLinesIncluding("description"))
                 .collect(joining("\n"))
         );
     }
 
-    private Predicate<String> outLinesIncluding(String id) {
+    private static Predicate<String> outLinesIncluding(String id) {
         return line -> !line.contains(id);
     }
 }

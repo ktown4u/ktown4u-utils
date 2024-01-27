@@ -20,6 +20,7 @@ import java.util.function.Predicate;
 
 public class JsonPrettyPrinter {
     private static final ObjectMapper mapper;
+    public static final int columns = 80;
 
     static {
         mapper = new ObjectMapper();
@@ -48,5 +49,10 @@ public class JsonPrettyPrinter {
 
     public static Predicate<String> outLinesIncluding(String fieldNameToExclude) {
         return line -> !line.contains(fieldNameToExclude);
+    }
+
+    public static String formatLineWithWhitespace(String name, String value){
+        int whitespaceSize = columns - name.length() - value.length();
+        return String.format("%s%s%s\n", name, " ".repeat(Math.max(0, whitespaceSize)), value);
     }
 }

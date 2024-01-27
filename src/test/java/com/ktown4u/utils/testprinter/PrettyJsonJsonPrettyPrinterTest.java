@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static com.ktown4u.utils.testprinter.OrderLineItemBuilder.anOrderLineItem;
 import static com.ktown4u.utils.testprinter.ProductBuilder.aProduct;
@@ -40,10 +41,14 @@ public class PrettyJsonJsonPrettyPrinterTest {
                 .build();
 
         Approvals.verify(printer.prettyPrint(order).stream()
-                .filter(line -> !line.contains("id"))
-                .filter(line -> !line.contains("description"))
+                .filter(outLinesIncluding("id"))
+                .filter(outLinesIncluding("description"))
                 .collect(joining("\n"))
         );
+    }
+
+    private Predicate<String> outLinesIncluding(String id) {
+        return line -> !line.contains(id);
     }
 }
 

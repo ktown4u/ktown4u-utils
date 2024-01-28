@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    `maven-publish`
 }
 
 repositories {
@@ -7,9 +8,6 @@ repositories {
 }
 
 dependencies {
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api(libs.commons.math3)
-
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")

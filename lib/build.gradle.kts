@@ -12,7 +12,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.ktown4u"
             artifactId = "utils"
-            version = "1.0.1"
+            version = "1.0.2"
 
             from(components["java"])
         }

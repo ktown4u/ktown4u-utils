@@ -7,6 +7,18 @@ repositories {
     mavenCentral()
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.ktown4u"
+            artifactId = "utils"
+            version = "1.0.1"
+
+            from(components["java"])
+        }
+    }
+}
+
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.1")

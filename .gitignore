@@ -39,3 +39,6 @@ out/
 
 .localstack
 spy.log
+
+### approval tests
+**/*received.txt

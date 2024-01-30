@@ -1,0 +1,15 @@
+{
+  "lineItems" : [ {
+    "quantity" : 2,
+    "product" : {
+      "name" : "coffee",
+      "price" : 1000
+    }
+  }, {
+    "quantity" : 1,
+    "product" : {
+      "name" : "Learning Spring Boot 2.0",
+      "price" : 30000
+    }
+  } ]
+}

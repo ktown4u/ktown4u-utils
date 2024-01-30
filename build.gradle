@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.ktown4u'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '21'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // objectMapper
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.16.1'
+
+    // approvaltests
+    testImplementation 'com.approvaltests:approvaltests:22.3.3'
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform {
+        excludeTags 'IntegrationTest'
+    }
+}
+
+tasks.register('integrationTest', Test) {
+    group 'verification'
+    useJUnitPlatform {
+        includeTags 'IntegrationTest'
+    }
+}

@@ -27,7 +27,6 @@ public class PrettyJsonPrinter {
 
     static {
         mapper = new ObjectMapper();
-        final ObjectMapper mapper = new ObjectMapper();
         final JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DATE_TIME_FORMATTER));
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DATE_TIME_FORMATTER));

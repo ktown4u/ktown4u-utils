@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * TODO:
  * [X] getItem_whenNotFound, 컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소가 없으면 예외를 발생시킨다
- * [ ] getItem_whenFound, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소를 반환한다
+ * [X] getItem_whenFound, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소를 반환한다
  * [ ] fetchItems, 컬렉션, Id 추출 Function, Id 컬렉션으로 객체를 반환하는 fetch Function을 제공하면 Id 컬렉션을 추출하여 fetch Function을 실행한 결과를 반환한다
  */
 class SteamUtilsTest {
@@ -30,15 +30,13 @@ class SteamUtilsTest {
     @DisplayName("컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소가 없으면 예외를 발생시킨다")
     @Test
     void getItem_whenNotFound() {
-        Predicate<User> predicate = user -> user.name().equals("msbaek3");
-        assertThrows(IllegalArgumentException.class, () -> getItem(sourceList, predicate, errorMessage));
+        assertThrows(IllegalArgumentException.class, () -> getItem(sourceList, user -> user.name().equals("msbaek3"), errorMessage));
     }
 
     @DisplayName("컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소를 반환한다")
     @Test
     void getItem_whenFound() {
-        Predicate<User> predicate = user -> user.name().equals("msbaek");
-        User user = getItem(sourceList, predicate, errorMessage);
+        User user = getItem(sourceList, user1 -> user1.name().equals("msbaek"), errorMessage);
         assertThat(user).isEqualTo(new User("msbaek"));
     }
 

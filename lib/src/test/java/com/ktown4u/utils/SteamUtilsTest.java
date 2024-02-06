@@ -1,4 +1,4 @@
-package com.ktown4u.utils.testprinter;
+package com.ktown4u.utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -63,7 +63,6 @@ class SteamUtilsTest {
     @DisplayName("fetchIds를 적용해서 얻은 Id 컬렉션으로 객체를 반환하는 fetch Function을 적용해서 얻은 객체 컬렉션을 반환한다")
     @Test
     void fetchItems_returns_items_collection() {
-        Collection<Long> ids = StreamUtils.fetchIds(sourceCollection, User::id);
         Collection<User> users = StreamUtils.fetchItems(sourceCollection, User::id, this::listUsersBy);
         assertThat(users).containsExactly(new User("msbaek", 1l), new User("msbaek2", 2l));
     }

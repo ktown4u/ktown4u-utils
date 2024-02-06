@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * [X] getItemOrElseThrow_throws_exception_whenNotFound, 컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소가 없으면 예외를 발생시킨다
  * [X] getItemOrElseThrow_returns_found_whenFound, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소를 반환한다
  * [X] getItem_returns_optional, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소나 empty Optional을 반환한다
- * [ ] fetchItems, 컬렉션, Id 추출 Function, Id 컬렉션으로 객체를 반환하는 fetch Function을 제공하면 Id 컬렉션을 추출하여 fetch Function을 실행한 결과를 반환한다
+ * [X] fetchIds, 컬렉션에서 Id 추출 Function를 적용해서 Id 컬렉션을 반환한다
+ * [ ] fetchItems, fetchIds를 적용해서 얻은 Id 컬렉션으로 객체를 반환하는 fetch Function을 적용해서 얻은 객체 컬렉션을 반환한다
  */
 class SteamUtilsTest {
 
@@ -25,7 +28,7 @@ class SteamUtilsTest {
 
     @BeforeEach
     void setUp() {
-        sourceList = List.of(new User("msbaek"), new User("msbaek2"));
+        sourceList = List.of(new User("msbaek", 1l), new User("msbaek2", 2l));
         errorMessage = "해당 사용자가 존재하지 않습니다.";
     }
 
@@ -49,7 +52,14 @@ class SteamUtilsTest {
     @Test
     void getItemOrElseThrow_returns_found_whenFound() {
         User user = getItemOrElseThrow(sourceList, user1 -> user1.name().equals("msbaek"), errorMessage);
-        assertThat(user).isEqualTo(new User("msbaek"));
+        assertThat(user).isEqualTo(new User("msbaek", 1l));
+    }
+
+    @DisplayName("컬렉션에서 Id 추출 Function를 적용해서 Id 컬렉션을 반환한다")
+    @Test
+    void fetchIds_returns_id_collection() {
+        Collection<Long> ids = fetchIds(sourceList, User::id);
+        assertThat(ids).containsExactly(1l, 2l);
     }
 
     /**
@@ -80,10 +90,21 @@ class SteamUtilsTest {
         return getItem(sourceList, predicate)
                 .orElseThrow(() -> new IllegalArgumentException(errorMessage));
     }
+
+    /**
+     * Collection을 받아서 Id를 추출하여 Id 컬렉션을 반환한다.
+     *
+     * @param sourceList stream 처리할 소스 리스트
+     * @param idExtractor 소스 리스트의 원소에서 id를 추출할 함수
+     * @return id 컬렉션
+     * @param <T> sourceList의 타입
+     */
+    public static <T> Collection<Long> fetchIds(Collection<T> sourceList, Function<T, Long> idExtractor) {
+        return sourceList.stream()
+                .map(idExtractor)
+                .toList();
+    }
 }
 
-record User(String name) {
-    public User(String name) {
-        this.name = name;
-    }
+record User(String name, Long id) {
 }

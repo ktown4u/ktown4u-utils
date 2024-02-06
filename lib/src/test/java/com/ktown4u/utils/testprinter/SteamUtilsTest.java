@@ -63,9 +63,7 @@ class SteamUtilsTest {
      * @return
      */
     public static <T> T getItemOrElseThrow(final List<T> sourceList, final Predicate<T> predicate, final String errorMessage) {
-        return sourceList.stream()
-                .filter(predicate)
-                .findFirst()
+        return getItem(sourceList, predicate)
                 .orElseThrow(() -> new IllegalArgumentException(errorMessage));
     }
 

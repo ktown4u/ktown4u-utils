@@ -7,30 +7,35 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ktown4u.utils.OrderBuilder.anOrder;
+import static com.ktown4u.utils.OrderLineItemBuilder.anOrderLineItem;
 import static com.ktown4u.utils.PrettyJsonPrinter.outLinesIncluding;
+import static com.ktown4u.utils.ProductBuilder.aProduct;
 import static java.util.stream.Collectors.joining;
 
 class PrettyJsonPrinterTest {
     @Test
     public void test() {
-        Order order = OrderBuilder.anOrder()
+        Order order = anOrder()
                 .orderLineItems(
-                        OrderLineItemBuilder.anOrderLineItem()
+                        anOrderLineItem()
                                 .quantity(2L)
-                                .product(ProductBuilder.aProduct()
-                                        .name("coffee")
-                                        .price("1000")
+                                .product(
+                                        aProduct()
+                                                .name("coffee")
+                                                .price("1000")
                                 ),
-                        OrderLineItemBuilder.anOrderLineItem()
+                        anOrderLineItem()
                                 .quantity(1L)
-                                .product(ProductBuilder.aProduct()
-                                        .name("Learning Spring Boot 2.0")
-                                        .price("30000")
+                                .product(
+                                        aProduct()
+                                                .name("Learning Spring Boot 2.0")
+                                                .price("30000")
                                 )
                 )
                 .build();
 
-        Approvals.verify(com.ktown4u.utils.PrettyJsonPrinter.prettyPrint(order).stream()
+        Approvals.verify(PrettyJsonPrinter.prettyPrint(order).stream()
                 .filter(outLinesIncluding("id"))
                 .filter(outLinesIncluding("description"))
                 .collect(joining("\n"))

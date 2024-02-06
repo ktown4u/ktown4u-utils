@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * TODO:
  * [X] getItemOrElseThrow_throws_exception_whenNotFound, 컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소가 없으면 예외를 발생시킨다
  * [X] getItemOrElseThrow_returns_found_whenFound, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소를 반환한다
- * [ ] getItem_returns_optional, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소나 empty Optional을 반환한다
+ * [X] getItem_returns_optional, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소나 empty Optional을 반환한다
  * [ ] fetchItems, 컬렉션, Id 추출 Function, Id 컬렉션으로 객체를 반환하는 fetch Function을 제공하면 Id 컬렉션을 추출하여 fetch Function을 실행한 결과를 반환한다
  */
 class SteamUtilsTest {

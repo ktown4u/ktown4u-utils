@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,6 +42,16 @@ class SteamUtilsTest {
         assertThat(user).isEqualTo(new User("msbaek"));
     }
 
+    @DisplayName("컬렉션, Predicate를 제공하면 조건을 만족하는 첫번째 원소를 포함하는 Optional을 반환한다")
+    @Test
+    void getItem_returns_optional() {
+        Optional<User> user = getItem(sourceList, user1 -> user1.name().equals("msbaek"));
+        user.map(User::name).ifPresentOrElse(
+            name -> assertThat(name).isEqualTo("msbaek"),
+            () -> assertThat(false).isTrue()
+        );
+    }
+
     /**
      * List를 받아서 조건에 맞는 아이템을 추출한다.
      * 조건에 맞는 아이템이 존재하지 않으면 errorMessage를 가진 예외를 발생시킨다.
@@ -56,6 +67,12 @@ class SteamUtilsTest {
                 .filter(predicate)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(errorMessage));
+    }
+
+    public static <T> Optional<T> getItem(final List<T> sourceList, final Predicate<T> predicate) {
+        return sourceList.stream()
+                .filter(predicate)
+                .findFirst();
     }
 }
 

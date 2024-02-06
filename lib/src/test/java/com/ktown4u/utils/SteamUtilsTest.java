@@ -1,4 +1,4 @@
-package com.ktown4u.utils.testprinter;
+package com.ktown4u.utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

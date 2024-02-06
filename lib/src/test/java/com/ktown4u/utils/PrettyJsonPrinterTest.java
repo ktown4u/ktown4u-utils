@@ -1,4 +1,4 @@
-package com.ktown4u.utils.testprinter;
+package com.ktown4u.utils;
 
 import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
@@ -8,11 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ktown4u.utils.PrettyJsonPrinter.outLinesIncluding;
-import static com.ktown4u.utils.testprinter.OrderLineItemBuilder.anOrderLineItem;
-import static com.ktown4u.utils.testprinter.ProductBuilder.aProduct;
 import static java.util.stream.Collectors.joining;
 
-public class PrettyJsonPrinterTest {
+class PrettyJsonPrinterTest {
     @Test
     public void test() {
         Order order = OrderBuilder.anOrder()

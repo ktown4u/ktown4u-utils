@@ -1,4 +1,4 @@
-package com.ktown4u.utils.testprinter;
+package com.ktown4u.utils;
 
 import java.util.Collection;
 import java.util.Optional;

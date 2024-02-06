@@ -1,9 +1,9 @@
-package com.ktown4u.utils.testprinter;
+package com.ktown4u.utils;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Order {
+class Order {
     private Long id;
     private List<OrderLineItem> lineItems;
 

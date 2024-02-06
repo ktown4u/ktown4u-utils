@@ -47,30 +47,38 @@ class SteamUtilsTest {
     void getItem_returns_optional() {
         Optional<User> user = getItem(sourceList, user1 -> user1.name().equals("msbaek"));
         user.map(User::name).ifPresentOrElse(
-            name -> assertThat(name).isEqualTo("msbaek"),
-            () -> assertThat(false).isTrue()
+                name -> assertThat(name).isEqualTo("msbaek"),
+                () -> assertThat(false).isTrue()
         );
     }
 
     /**
-     * List를 받아서 조건에 맞는 아이템을 추출한다.
-     * 조건에 맞는 아이템이 존재하지 않으면 errorMessage를 가진 예외를 발생시킨다.
+     * List를 받아서 조건에 맞는 첫번째 아이템을 Optional로 반환한다.
      *
      * @param sourceList stream 처리할 소스 리스트
-     * @param predicate filter에 사용할 조건
-     * @param errorMessage 조건에 맞는 아이템이 없을 때 발생시킬 예외의 메시지
-     * @param <T> 반환할 타입
-     * @return
+     * @param predicate  filter에 사용할 조건
+     * @param <T>        반환할 타입
+     * @return 조건에 맞는 첫번째 아이템 or empty Optional
      */
-    public static <T> T getItemOrElseThrow(final List<T> sourceList, final Predicate<T> predicate, final String errorMessage) {
-        return getItem(sourceList, predicate)
-                .orElseThrow(() -> new IllegalArgumentException(errorMessage));
-    }
-
     public static <T> Optional<T> getItem(final List<T> sourceList, final Predicate<T> predicate) {
         return sourceList.stream()
                 .filter(predicate)
                 .findFirst();
+    }
+
+    /**
+     * List를 받아서 조건에 맞는 아이템을 반환한다.
+     * 조건에 맞는 아이템이 존재하지 않으면 errorMessage를 가진 예외를 발생시킨다.
+     *
+     * @param sourceList   stream 처리할 소스 리스트
+     * @param predicate    filter에 사용할 조건
+     * @param errorMessage 조건에 맞는 아이템이 없을 때 발생시킬 예외의 메시지
+     * @param <T>          반환할 타입
+     * @return 조건에 맞는 아이템
+     */
+    public static <T> T getItemOrElseThrow(final List<T> sourceList, final Predicate<T> predicate, final String errorMessage) {
+        return getItem(sourceList, predicate)
+                .orElseThrow(() -> new IllegalArgumentException(errorMessage));
     }
 }
 

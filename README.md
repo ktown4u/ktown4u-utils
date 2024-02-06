@@ -2,7 +2,7 @@
 
 - ktown4u의 여러 프로젝트에서 공유되어 사용할 만한 유용한 기능을 제공하는 프로젝트
 
-## PrettyJsonPrinter
+## PrettyJsonPrinter(v1.0.7)
 
 - [approval test(Approvals.veriy)](https://approvaltests.com/)를 사용할 때 assert할 객체의 상태를 사람이 알아보기 쉬운 형태고 제공하는 printer를 매번 수작업으로 작성할 수도 있지만
 - ObjectMapper를 이용해서 간단히 printer의 효과를 낼 수 있도록 기능을 제공
@@ -54,7 +54,7 @@
 }
 ```
 
-## StreamUtils
+## StreamUtils(v1.1.0)
 - stream pipeline에서 자주 중복되는 기능이 사용됨
 ```java
 class SteamUtilsTest {

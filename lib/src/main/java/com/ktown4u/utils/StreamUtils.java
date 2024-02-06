@@ -56,13 +56,13 @@ public class StreamUtils {
      * Collection에 fethId를 적용해서 얻은 Id 컬렉션으로 객체를 반환하는 fetch Function을 적용해서 얻은 객체 컬렉션을 반환한다.
      *
      * @param sourceCollection stream 처리할 소스 리스트
-     * @param idExracttor      소스 리스트의 원소에서 id를 추출할 함수
+     * @param idExtractor      소스 리스트의 원소에서 id를 추출할 함수
      * @param fetchFunction    id를 받아서 데이터를 가져올 함수
      * @param <T>              sourceList의 타입
      * @return idExtractor가 반환한 id 값들을 갖는 객체 컬렉션
      */
-    public static <T> Collection<T> fetchItems(Collection<T> sourceCollection, Function<T, Long> idExracttor, Function<Collection<Long>, Collection<T>> fetchFunction) {
-        Collection<Long> ids = fetchIds(sourceCollection, idExracttor);
+    public static <T> Collection<T> fetchItems(Collection<T> sourceCollection, Function<T, Long> idExtractor, Function<Collection<Long>, Collection<T>> fetchFunction) {
+        Collection<Long> ids = fetchIds(sourceCollection, idExtractor);
         return fetchFunction.apply(ids);
     }
 }

@@ -29,6 +29,16 @@ class SteamUtilsTest {
         errorMessage = "해당 사용자가 존재하지 않습니다.";
     }
 
+    @DisplayName("컬렉션, Predicate를 제공하면 조건을 만족하는 첫번째 원소를 포함하는 Optional을 반환한다")
+    @Test
+    void getItem_returns_optional() {
+        Optional<User> user = getItem(sourceList, user1 -> user1.name().equals("msbaek"));
+        user.map(User::name).ifPresentOrElse(
+                name -> assertThat(name).isEqualTo("msbaek"),
+                () -> assertThat(false).isTrue()
+        );
+    }
+
     @DisplayName("컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소가 없으면 예외를 발생시킨다")
     @Test
     void getItemOrElseThrow_throws_exception_whenNotFound() {
@@ -40,16 +50,6 @@ class SteamUtilsTest {
     void getItemOrElseThrow_returns_found_whenFound() {
         User user = getItemOrElseThrow(sourceList, user1 -> user1.name().equals("msbaek"), errorMessage);
         assertThat(user).isEqualTo(new User("msbaek"));
-    }
-
-    @DisplayName("컬렉션, Predicate를 제공하면 조건을 만족하는 첫번째 원소를 포함하는 Optional을 반환한다")
-    @Test
-    void getItem_returns_optional() {
-        Optional<User> user = getItem(sourceList, user1 -> user1.name().equals("msbaek"));
-        user.map(User::name).ifPresentOrElse(
-                name -> assertThat(name).isEqualTo("msbaek"),
-                () -> assertThat(false).isTrue()
-        );
     }
 
     /**

@@ -29,14 +29,14 @@ class SteamUtilsTest {
 
     @DisplayName("컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소가 없으면 예외를 발생시킨다")
     @Test
-    void getItem_whenNotFound() {
-        assertThrows(IllegalArgumentException.class, () -> getItem(sourceList, user -> user.name().equals("msbaek3"), errorMessage));
+    void getItemOrElseThrow_throws_exception_whenNotFound() {
+        assertThrows(IllegalArgumentException.class, () -> getItemOrElseThrow(sourceList, user -> user.name().equals("msbaek3"), errorMessage));
     }
 
     @DisplayName("컬렉션, Predicate을 제공하면 Predicate을 만족하는 컬렉션의 원소를 반환한다")
     @Test
-    void getItem_whenFound() {
-        User user = getItem(sourceList, user1 -> user1.name().equals("msbaek"), errorMessage);
+    void getItemOrElseThrow_returns_found_whenFound() {
+        User user = getItemOrElseThrow(sourceList, user1 -> user1.name().equals("msbaek"), errorMessage);
         assertThat(user).isEqualTo(new User("msbaek"));
     }
 
@@ -50,7 +50,7 @@ class SteamUtilsTest {
      * @param <T> 반환할 타입
      * @return
      */
-    public static <T> T getItem(final List<T> sourceList, final Predicate<T> predicate, final String errorMessage) {
+    public static <T> T getItemOrElseThrow(final List<T> sourceList, final Predicate<T> predicate, final String errorMessage) {
         return sourceList.stream()
                 .filter(predicate)
                 .findFirst()

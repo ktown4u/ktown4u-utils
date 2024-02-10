@@ -82,6 +82,11 @@ class ProductBuilder {
         return this;
     }
 
+    public ProductBuilder description(final String description) {
+        this.description = description;
+        return this;
+    }
+
     public Product build() {
         Product product = new Product();
         product.setId(id);

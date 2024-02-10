@@ -1,10 +1,14 @@
 package com.ktown4u.utils;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public enum YamlWriter {
@@ -18,17 +22,23 @@ public enum YamlWriter {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE); // Disable auto-detection for all methods
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); // Enable visibility for fields
+        mapper.addMixIn(Object.class, PropertyFilterMixIn.class);
     }
 
     public static String write(final Object object) {
+        return writeWithExclusions(object);
+    }
+
+    public static String writeWithExclusions(final Object object, final String... fieldNamesToExclude) {
+        final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(fieldNamesToExclude);
+        final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
         try {
-            return mapper.writeValueAsString(object);
+            return mapper.writer(filterProvider).writeValueAsString(object);
         } catch (final JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String writeWithExclusions(final Object object, final String... fieldNamesToExclude) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+    @JsonFilter("PropertyFilter")
+    private static class PropertyFilterMixIn {}
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -32,8 +33,9 @@ public enum YamlWriter {
     public static String writeWithExclusions(final Object object, final String... fieldNamesToExclude) {
         final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(fieldNamesToExclude);
         final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
+        final ObjectWriter writer = mapper.writer(filterProvider);
         try {
-            return mapper.writer(filterProvider).writeValueAsString(object);
+            return writer.writeValueAsString(object);
         } catch (final JsonProcessingException e) {
             throw new RuntimeException(e);
         }

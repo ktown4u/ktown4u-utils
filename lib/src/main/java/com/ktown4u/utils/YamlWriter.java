@@ -34,6 +34,10 @@ public enum YamlWriter {
         final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(fieldNamesToExclude);
         final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
         final ObjectWriter writer = mapper.writer(filterProvider);
+        return writeValueAsString(writer, object);
+    }
+
+    private static String writeValueAsString(final ObjectWriter writer, final Object object) {
         try {
             return writer.writeValueAsString(object);
         } catch (final JsonProcessingException e) {

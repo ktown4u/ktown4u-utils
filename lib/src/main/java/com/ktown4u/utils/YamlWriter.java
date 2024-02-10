@@ -27,4 +27,8 @@ public enum YamlWriter {
             throw new RuntimeException(e);
         }
     }
+
+    public static String writeWithExclusions(final Object object, final String... fieldNamesToExclude) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

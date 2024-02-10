@@ -38,4 +38,13 @@ class YamlWriterTest {
 
         Approvals.verify(result);
     }
+
+    @Test
+    @DisplayName("writeWithExclusions - 원하는 필드를 제외하고 YAML 포멧 문자열로 반환.")
+    void writeWithExclusions() {
+        final String[] filedNamesToExclude = {"id", "description"};
+        final String result = YamlWriter.writeWithExclusions(order, filedNamesToExclude);
+
+        Approvals.verify(result);
+    }
 }

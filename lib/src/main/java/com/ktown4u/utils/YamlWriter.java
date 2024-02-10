@@ -23,6 +23,7 @@ public enum YamlWriter {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE); // Disable auto-detection for all methods
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); // Enable visibility for fields
+        // @JsonFilter가 붙은 클래스만 필터링할 수 있는 것 같음. 모든 클래스에 쉽게 필터링을 적용하기 위해 Object에 mix-in 적용.
         mapper.addMixIn(Object.class, PropertyFilterMixIn.class);
     }
 

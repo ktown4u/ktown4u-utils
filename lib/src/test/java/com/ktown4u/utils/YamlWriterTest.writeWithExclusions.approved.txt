@@ -1,0 +1,10 @@
+---
+lineItems:
+- quantity: 2
+  product:
+    name: "Kenya AA Drip Coffee"
+    price: 8000
+- quantity: 1
+  product:
+    name: "Americano"
+    price: 5000

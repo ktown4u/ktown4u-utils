@@ -1,0 +1,17 @@
+---
+id: null
+lineItems:
+- id: null
+  quantity: 2
+  product:
+    id: null
+    name: "Kenya AA Drip Coffee"
+    description: "Bright, citrusy, with a hint of cocoa and a smooth finish."
+    price: 8000
+- id: null
+  quantity: 1
+  product:
+    id: null
+    name: "Americano"
+    description: "2-shot original blend Americano."
+    price: 5000

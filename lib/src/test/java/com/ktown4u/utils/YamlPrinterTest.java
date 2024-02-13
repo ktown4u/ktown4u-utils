@@ -34,7 +34,7 @@ class YamlPrinterTest {
                     .build();
 
     @Test
-    @DisplayName("write - 모든 필드를 YAML 포멧 문자열로 반환.")
+    @DisplayName("print - 모든 필드를 YAML 포멧 문자열로 반환.")
     void print() {
         final String result = YamlPrinter.print(order);
 

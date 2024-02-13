@@ -8,7 +8,7 @@ import static com.ktown4u.utils.OrderBuilder.anOrder;
 import static com.ktown4u.utils.OrderLineItemBuilder.anOrderLineItem;
 import static com.ktown4u.utils.ProductBuilder.aProduct;
 
-class YamlWriterTest {
+class YamlPrinterTest {
 
     private final Order order =
 
@@ -35,17 +35,17 @@ class YamlWriterTest {
 
     @Test
     @DisplayName("write - 모든 필드를 YAML 포멧 문자열로 반환.")
-    void write() {
-        final String result = YamlWriter.write(order);
+    void print() {
+        final String result = YamlPrinter.print(order);
 
         Approvals.verify(result);
     }
 
     @Test
-    @DisplayName("writeWithExclusions - 원하는 필드를 제외하고 YAML 포멧 문자열로 반환.")
-    void writeWithExclusions() {
+    @DisplayName("printWithExclusions - 원하는 필드를 제외하고 YAML 포멧 문자열로 반환.")
+    void printWithExclusions() {
         final String[] filedNamesToExclude = {"id", "description"};
-        final String result = YamlWriter.writeWithExclusions(order, filedNamesToExclude);
+        final String result = YamlPrinter.printWithExclusions(order, filedNamesToExclude);
 
         Approvals.verify(result);
     }

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-public enum YamlWriter {
+public enum YamlPrinter {
     ;
     private static final ObjectMapper mapper;
 
@@ -27,11 +27,11 @@ public enum YamlWriter {
         mapper.addMixIn(Object.class, PropertyFilterMixIn.class);
     }
 
-    public static String write(final Object object) {
-        return writeWithExclusions(object);
+    public static String print(final Object object) {
+        return printWithExclusions(object);
     }
 
-    public static String writeWithExclusions(final Object object, final String... fieldNamesToExclude) {
+    public static String printWithExclusions(final Object object, final String... fieldNamesToExclude) {
         final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(fieldNamesToExclude);
         final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
         final ObjectWriter writer = mapper.writer(filterProvider);

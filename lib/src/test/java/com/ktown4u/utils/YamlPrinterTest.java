@@ -11,7 +11,6 @@ import static com.ktown4u.utils.ProductBuilder.aProduct;
 class YamlPrinterTest {
 
     private final Order order =
-
             anOrder()
                     .orderLineItems(
                             anOrderLineItem()

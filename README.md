@@ -118,3 +118,74 @@ class SteamUtilsTest {
   - `StreamUtils.getItemOrElseThrow`: `getItem`을 호출해서 조건에 맞는 객체가 존재하지 않으면 `IllegalArgumentException`을 주어진 메시지로 발생시킴
   - `StreamUtils.fetchIds`: 주어진 컬렉션에 idExtractor를 적용해서 id 컬렉션을 반환
   - `StreamUtils.fetchItems`: `fetchIds`를 적용해서 얻은 id 컬렉션에 대헛 주어진 fetch 함수를 호출하여 원하는 객체 컬렉션을 반환
+
+## YamlPrinter(v1.2.0)
+
+- 사용법
+
+```java
+@Test
+@DisplayName("print - 모든 필드를 YAML 포멧 문자열로 반환.")
+void print() {
+  final String result = YamlPrinter.print(order);
+
+  Approvals.verify(result);
+}
+
+@Test
+@DisplayName("printWithExclusions - 원하는 필드를 제외하고 YAML 포멧 문자열로 반환.")
+void printWithExclusions() {
+  final String[] filedNamesToExclude = {"id", "description"};
+  final String result = YamlPrinter.printWithExclusions(order, filedNamesToExclude);
+
+  Approvals.verify(result);
+}
+```
+
+- approved.text 형식
+
+```yaml
+---
+id: null
+lineItems:
+  - id: null
+    quantity: 2
+    product:
+      id: null
+      name: "Kenya AA Drip Coffee"
+      description: "Bright, citrusy, with a hint of cocoa and a smooth finish."
+      price: 8000
+  - id: null
+    quantity: 1
+    product:
+      id: null
+      name: "Americano"
+      description: "2-shot original blend Americano."
+      price: 5000
+```
+
+## LineFormatter(V1.3.0)
+
+- 사용법
+
+```java
+@DisplayName("name, value, columns를 입력하면 name과 value 사이에 columns만큼의 공백을 추가한 문자열을 반환한다")
+@Test
+void case0() {
+  // given
+  final String name = "name";
+  final Object value = "value";
+
+  // when
+  final String result = lineFormatter.formatLineWithWhitespaces(name, value);
+
+  // then
+  Approvals.verify(result);
+}
+```
+
+- approved.text 형식
+
+```text
+name value
+```

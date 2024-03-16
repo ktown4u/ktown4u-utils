@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.util.Arrays;
+
 public enum YamlPrinter {
     ;
     private static final ObjectMapper mapper;
@@ -38,8 +40,14 @@ public enum YamlPrinter {
         return writeValueAsString(writer, object);
     }
 
-    public static String printWithInclusions(final Object object, final String... fieldNamesToInclude) {
-        throw new UnsupportedOperationException("Unsupported printWithInclusions");
+    public static String printWithInclusions(final Object object, final String... fieldPathToInclude) {
+        final String[] array = Arrays.stream(fieldPathToInclude)
+                .flatMap(s -> Arrays.stream(s.split("\\.")))
+                .toArray(String[]::new);
+        final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(array);
+        final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
+        final ObjectWriter writer = mapper.writer(filterProvider);
+        return writeValueAsString(writer, object);
     }
 
     private static String writeValueAsString(final ObjectWriter writer, final Object object) {

@@ -52,8 +52,8 @@ class YamlPrinterTest {
     @Test
     @DisplayName("printWithInclusions - 원하는 필드만 포함하고 YAML 포멧 문자열로 반환.")
     void printWithInclusions() {
-        final String[] filedNamesToInclude = {"quantity", "description"};
-        final String result = YamlPrinter.printWithInclusions(order, filedNamesToInclude);
+        final String[] filedPathToInclude = {"lineItems.product.description", "lineItems.product.price"};
+        final String result = YamlPrinter.printWithInclusions(order, filedPathToInclude);
 
         Approvals.verify(result);
     }

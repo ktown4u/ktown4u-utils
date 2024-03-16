@@ -46,6 +46,10 @@ public enum YamlPrinter {
         }
     }
 
+    public static String printWithInclusions(final Object object, final String... fieldNamesToInclude) {
+        throw new UnsupportedOperationException("Unsupported printWithInclusions");
+    }
+
     @JsonFilter("PropertyFilter")
     private static class PropertyFilterMixIn {}
 }

@@ -41,13 +41,16 @@ public enum YamlPrinter {
     }
 
     public static String printWithInclusions(final Object object, final String... fieldPathToInclude) {
-        final String[] array = Arrays.stream(fieldPathToInclude)
-                .flatMap(s -> Arrays.stream(s.split("\\.")))
-                .toArray(String[]::new);
-        final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(array);
+        final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(splitAndFlatten(fieldPathToInclude));
         final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
         final ObjectWriter writer = mapper.writer(filterProvider);
         return writeValueAsString(writer, object);
+    }
+
+    private static String[] splitAndFlatten(final String[] fieldNamesToInclude) {
+        return Arrays.stream(fieldNamesToInclude)
+                .flatMap(s -> Arrays.stream(s.split("\\.")))
+                .toArray(String[]::new);
     }
 
     private static String writeValueAsString(final ObjectWriter writer, final Object object) {

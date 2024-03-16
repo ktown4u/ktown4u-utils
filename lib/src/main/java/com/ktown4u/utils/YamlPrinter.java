@@ -38,16 +38,16 @@ public enum YamlPrinter {
         return writeValueAsString(writer, object);
     }
 
+    public static String printWithInclusions(final Object object, final String... fieldNamesToInclude) {
+        throw new UnsupportedOperationException("Unsupported printWithInclusions");
+    }
+
     private static String writeValueAsString(final ObjectWriter writer, final Object object) {
         try {
             return writer.writeValueAsString(object);
         } catch (final JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static String printWithInclusions(final Object object, final String... fieldNamesToInclude) {
-        throw new UnsupportedOperationException("Unsupported printWithInclusions");
     }
 
     @JsonFilter("PropertyFilter")

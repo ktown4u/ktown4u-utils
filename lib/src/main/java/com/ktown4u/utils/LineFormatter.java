@@ -9,8 +9,10 @@ public class LineFormatter {
     }
 
     public String formatLineWithWhitespaces(final String name, final Object value) {
-        final int length = null == value ? 4 : value.toString().length();
+        final int length = null == value ? "null".length() : value.toString().length();
         final int whitespaceSize = this.columns - name.length() - length;
-        return String.format("%s%s%s\n", name, " ".repeat(Math.max(0, whitespaceSize)), value);
+        return String.format("%s%s%s\n", name,
+                " ".repeat(Math.max(0, whitespaceSize)),
+                value);
     }
 }

@@ -4,58 +4,67 @@
 
 ## PrettyJsonPrinter(v1.0.7)
 
-- [approval test(Approvals.veriy)](https://approvaltests.com/)를 사용할 때 assert할 객체의 상태를 사람이 알아보기 쉬운 형태고 제공하는 printer를 매번 수작업으로 작성할 수도 있지만
+- [approval test(Approvals.veriy)](https://approvaltests.com/)를 사용할 때 assert할 객체의 상태를 사람이 알아보기 쉬운 형태고 제공하는 printer를 매번
+  수작업으로 작성할 수도 있지만
 - ObjectMapper를 이용해서 간단히 printer의 효과를 낼 수 있도록 기능을 제공
 
 ```java
-    @Test
-    public void test() {
-        Order order = OrderBuilder.anOrder()
-                .orderLineItems(
-                        OrderLineItemBuilder.anOrderLineItem()
-                                .quantity(2L)
-                                .product(ProductBuilder.aProduct()
-                                        .name("coffee")
-                                        .price("1000")
-                                ),
-                        OrderLineItemBuilder.anOrderLineItem()
-                                .quantity(1L)
-                                .product(ProductBuilder.aProduct()
-                                        .name("Learning Spring Boot 2.0")
-                                        .price("30000")
-                                )
-                )
-                .build();
 
-        Approvals.verify(com.ktown4u.utils.PrettyJsonPrinter.prettyPrint(order).stream()
-                .filter(outLinesIncluding("id"))
-                .filter(outLinesIncluding("description"))
-                .collect(joining("\n"))
-        );
-    }
+@Test
+public void test() {
+    Order order = OrderBuilder.anOrder()
+            .orderLineItems(
+                    OrderLineItemBuilder.anOrderLineItem()
+                            .quantity(2L)
+                            .product(ProductBuilder.aProduct()
+                                    .name("coffee")
+                                    .price("1000")
+                            ),
+                    OrderLineItemBuilder.anOrderLineItem()
+                            .quantity(1L)
+                            .product(ProductBuilder.aProduct()
+                                    .name("Learning Spring Boot 2.0")
+                                    .price("30000")
+                            )
+            )
+            .build();
+
+    Approvals.verify(com.ktown4u.utils.PrettyJsonPrinter.prettyPrint(order).stream()
+            .filter(outLinesIncluding("id"))
+            .filter(outLinesIncluding("description"))
+            .collect(joining("\n"))
+    );
+}
 ```
+
 - 위와 같이 verify에서 `PrettyJsonPrinter.prettyPrint`를 호출하고 테스트에서 검증하지 않으려는 컬럼들들 `outLinesIncluding` 함수를 이용해서 제거할 수 있음
 - 위 테스트에서 생성된 검증 파일
+
 ```json
 {
-  "lineItems" : [ {
-    "quantity" : 2,
-    "product" : {
-      "name" : "coffee",
-      "price" : 1000
+  "lineItems": [
+    {
+      "quantity": 2,
+      "product": {
+        "name": "coffee",
+        "price": 1000
+      }
+    },
+    {
+      "quantity": 1,
+      "product": {
+        "name": "Learning Spring Boot 2.0",
+        "price": 30000
+      }
     }
-  }, {
-    "quantity" : 1,
-    "product" : {
-      "name" : "Learning Spring Boot 2.0",
-      "price" : 30000
-    }
-  } ]
+  ]
 }
 ```
 
 ## StreamUtils(v1.1.0)
+
 - stream pipeline에서 자주 중복되는 기능이 사용됨
+
 ```java
 class SteamUtilsTest {
 
@@ -113,32 +122,34 @@ class SteamUtilsTest {
     }
 }
 ```
+
 - 위와 같이 사용할 수 있음
-  - `StreamUtils.getItem`: 주어진 컬렉션에서 Predicate을 만족하는 첫번째 객체를 Optional로 반환
-  - `StreamUtils.getItemOrElseThrow`: `getItem`을 호출해서 조건에 맞는 객체가 존재하지 않으면 `IllegalArgumentException`을 주어진 메시지로 발생시킴
-  - `StreamUtils.fetchIds`: 주어진 컬렉션에 idExtractor를 적용해서 id 컬렉션을 반환
-  - `StreamUtils.fetchItems`: `fetchIds`를 적용해서 얻은 id 컬렉션에 대헛 주어진 fetch 함수를 호출하여 원하는 객체 컬렉션을 반환
+    - `StreamUtils.getItem`: 주어진 컬렉션에서 Predicate을 만족하는 첫번째 객체를 Optional로 반환
+    - `StreamUtils.getItemOrElseThrow`: `getItem`을 호출해서 조건에 맞는 객체가 존재하지 않으면 `IllegalArgumentException`을 주어진 메시지로 발생시킴
+    - `StreamUtils.fetchIds`: 주어진 컬렉션에 idExtractor를 적용해서 id 컬렉션을 반환
+    - `StreamUtils.fetchItems`: `fetchIds`를 적용해서 얻은 id 컬렉션에 대헛 주어진 fetch 함수를 호출하여 원하는 객체 컬렉션을 반환
 
 ## YamlPrinter(v1.2.0)
 
 - 사용법
 
 ```java
+
 @Test
 @DisplayName("print - 모든 필드를 YAML 포멧 문자열로 반환.")
 void print() {
-  final String result = YamlPrinter.print(order);
+    final String result = YamlPrinter.print(order);
 
-  Approvals.verify(result);
+    Approvals.verify(result);
 }
 
 @Test
 @DisplayName("printWithExclusions - 원하는 필드를 제외하고 YAML 포멧 문자열로 반환.")
 void printWithExclusions() {
-  final String[] filedNamesToExclude = {"id", "description"};
-  final String result = YamlPrinter.printWithExclusions(order, filedNamesToExclude);
+    final String[] filedNamesToExclude = {"id", "description"};
+    final String result = YamlPrinter.printWithExclusions(order, filedNamesToExclude);
 
-  Approvals.verify(result);
+    Approvals.verify(result);
 }
 ```
 
@@ -169,18 +180,19 @@ lineItems:
 - 사용법
 
 ```java
+
 @DisplayName("name, value, columns를 입력하면 name과 value 사이에 columns만큼의 공백을 추가한 문자열을 반환한다")
 @Test
 void case0() {
-  // given
-  final String name = "name";
-  final Object value = "value";
+    // given
+    final String name = "name";
+    final Object value = "value";
 
-  // when
-  final String result = lineFormatter.formatLineWithWhitespaces(name, value);
+    // when
+    final String result = lineFormatter.formatLineWithWhitespaces(name, value);
 
-  // then
-  Approvals.verify(result);
+    // then
+    Approvals.verify(result);
 }
 ```
 
@@ -191,3 +203,19 @@ name value
 ```
 
 ## Neutralizer(v1.4.0)
+
+- 테스트를 하다 보면 LocalDateTime처럼 호출할 때마다 변경되는 값이 포함된 결과를 검증해야 하는 경우가 있음
+- 이럴 경우 이를 무력화(neutralize)하는 기능이 필요함
+
+```java
+@Test
+void neutralizeLocalDateTime() {
+    String string = "GoodsFamily{id=1, name='name', createdBy=1, updatedBy=null, createdAt=2021-08-01T00:00:00.000000, updatedAt=null, goodsFamily2Goods=[]}";
+
+    String result = Neutralizer.localDateTime(string);
+
+    assertThat(result).contains(Neutralizer.LOCAL_DATE_TIME_REPLACEMENT);
+}
+```
+- 위와 같이 LocalDateTime을 toString()으로 변환한 값("2021-08-01T00:00:00.000000")을 `Neutralizer.LOCAL_DATE_TIME_REPLACEMENT`로 변환하는 기능을 제공한다.
+- 향후 LocalDateTime뿐만 아니라 다른 타입에 대해서도 제공할 예정

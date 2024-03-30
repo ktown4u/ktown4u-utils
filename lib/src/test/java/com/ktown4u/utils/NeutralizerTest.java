@@ -15,12 +15,16 @@ public class NeutralizerTest {
         String string = "GoodsFamily{id=1, name='name', createdBy=1, updatedBy=null, createdAt=2021-08-01T00:00:00.000000, updatedAt=null, goodsFamily2Goods=[]}";
 
         // When
-        String replacement = "2003-05-03T10:11:12.134567";
-        String regex = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}";
-        Pattern pattern = Pattern.compile(regex);
-        String result = pattern.matcher(string).replaceAll(replacement);
+        String result = localDateTime(string);
 
         // Then
         assertThat(result).contains("2003-05-03T10:11:12.134567");
+    }
+
+    private String localDateTime(String string) {
+        String replacement = "2003-05-03T10:11:12.134567";
+        String regex = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{6}";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(string).replaceAll(replacement);
     }
 }

@@ -12,4 +12,12 @@ class LineFormatterTest {
         String expected = "name                                                                       value\n";
         assertThat(formattedLine).isEqualTo(expected);
     }
+
+    @Test
+    void line_with_depth() {
+        LineFormatter lineFormatter = new LineFormatter(80);
+        String formattedLine = lineFormatter.formatLineWithWhitespaces(1, "name", "value");
+        String expected = "    name                                                                   value\n";
+        assertThat(formattedLine).isEqualTo(expected);
+    }
 }

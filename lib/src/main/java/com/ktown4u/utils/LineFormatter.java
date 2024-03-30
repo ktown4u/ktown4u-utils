@@ -22,4 +22,9 @@ public class LineFormatter {
     private int valueLength(Object value) {
         return null == value ? "null".length() : value.toString().length();
     }
+
+    public String formatLineWithWhitespaces(int depth, String name, String value) {
+        String indentedName = " ".repeat(depth * 4) + name;
+        return formatLineWithWhitespaces(indentedName, value);
+    }
 }

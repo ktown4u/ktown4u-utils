@@ -208,6 +208,7 @@ name value
 - 이럴 경우 이를 무력화(neutralize)하는 기능이 필요함
 
 ```java
+
 @Test
 void neutralizeLocalDateTime() {
     String string = "GoodsFamily{id=1, name='name', createdBy=1, updatedBy=null, createdAt=2021-08-01T00:00:00.000000, updatedAt=null, goodsFamily2Goods=[]}";
@@ -217,5 +218,42 @@ void neutralizeLocalDateTime() {
     assertThat(result).contains(Neutralizer.LOCAL_DATE_TIME_REPLACEMENT);
 }
 ```
-- 위와 같이 LocalDateTime을 toString()으로 변환한 값("2021-08-01T00:00:00.000000")을 `Neutralizer.LOCAL_DATE_TIME_REPLACEMENT`로 변환하는 기능을 제공한다.
+
+- 위와 같이 LocalDateTime을 toString()으로 변환한 값("2021-08-01T00:00:00.000000")을 `Neutralizer.LOCAL_DATE_TIME_REPLACEMENT`로 변환하는
+  기능을 제공한다.
 - 향후 LocalDateTime뿐만 아니라 다른 타입에 대해서도 제공할 예정
+
+## LineFormatter with depth(v1.5.0)
+
+- depth를 인자를 전달하면 depth만큼의 indentation 공백을 추가한 문자열을 반환한다
+
+```java
+@Test
+void multiple_lines_with_depth() {
+  LineFormatter lineFormatter = new LineFormatter(80);
+  List<IndentiedLine> lines = List.of(
+          new IndentiedLine(1, "key1", "value1"),
+          new IndentiedLine(1, "key2", "value2"),
+          new IndentiedLine(2, "key11", "value1"),
+          new IndentiedLine(2, "key12", "value2")
+  );
+  String formattedLine = lineFormatter.formatLineWithWhitespaces("key", null);
+  for (IndentiedLine line : lines) {
+    formattedLine += lineFormatter.formatLineWithWhitespaces(line.depth, line.name, line.value);
+  }
+  Approvals.verify(formattedLine);
+}
+
+record IndentiedLine(int depth, String name, String value) {
+}
+```
+
+- 이와 같이 호출하면 아래와 같은 결과를 얻을 수 있음
+
+```text
+key                                                                         null
+    key1                                                                  value1
+    key2                                                                  value2
+        key11                                                             value1
+        key12                                                             value2
+```

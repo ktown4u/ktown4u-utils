@@ -21,17 +21,25 @@ class YamlPrinterPrintDiffTest {
     }
 
     @Test
-    @DisplayName("printDiff - null 도 비교가 가능하다.")
+    @DisplayName("printDiff - null 과의 비교가 가능하다.")
     void printDiffCanCompareNull() {
+        final Order order1 = anOrder().id(1L).customerId(1L).build();
+        final Order order2 = anOrder().id(2L).customerId(null).build();
+
+        final String result = YamlPrinter.printDiff(order1, order2);
+
+        Approvals.verify(result);
+    }
+
+    @Test
+    @DisplayName("printDiff - null 끼리도 비교가 가능하다.")
+    void printDiffCanCompareBothNull() {
         final Order order1 = anOrder().id(1L).customerId(null).build();
         final Order order2 = anOrder().id(2L).customerId(null).build();
+
         final String result1 = YamlPrinter.printDiff(order1, order2);
 
-        final Order order3 = anOrder().id(1L).customerId(1L).build();
-        final Order order4 = anOrder().id(2L).customerId(null).build();
-        final String result2 = YamlPrinter.printDiff(order3, order4);
-
-        Approvals.verify(result1 + result2);
+        Approvals.verify(result1);
     }
 
     // todo: depth 2 이상의 객체 비교 테스트 추가

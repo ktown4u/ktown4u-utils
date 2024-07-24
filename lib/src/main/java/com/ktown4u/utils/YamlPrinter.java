@@ -51,7 +51,7 @@ public enum YamlPrinter {
     public static <T> String printDiff(final T object1, final T object2) {
         final Class<?> reflected = object1.getClass();
 
-        final StringBuilder diffBuilder = new StringBuilder();
+        final DiffStringBuilder diffBuilder = DiffStringBuilder.init();
         final Field[] fields = reflected.getDeclaredFields();
 
         try {
@@ -61,37 +61,21 @@ public enum YamlPrinter {
                 final Object value2 = field.get(object2);
 
                 if (value1 == null && value2 == null) {
-                    diffBuilder.append(field.getName())
-                            .append(": ")
-                            .append(value1)
-                            .append("\n");
+                    diffBuilder.appendConcur(field.getName(), value1);
                     continue;
                 }
 
                 if (value1 == null || value2 == null) {
-                    diffBuilder.append(field.getName())
-                            .append(": ")
-                            .append(value1)
-                            .append(" -> ")
-                            .append(value2)
-                            .append("\n");
+                    diffBuilder.appendDiff(field.getName(), value1, value2);
                     continue;
                 }
 
                 if (value1.equals(value2)) {
-                    diffBuilder.append(field.getName())
-                            .append(": ")
-                            .append(value1)
-                            .append("\n");
+                    diffBuilder.appendConcur(field.getName(), value1);
                     continue;
                 }
 
-                diffBuilder.append(field.getName())
-                        .append(": ")
-                        .append(value1)
-                        .append(" -> ")
-                        .append(value2)
-                        .append("\n");
+                diffBuilder.appendDiff(field.getName(), value1, value2);
             }
         } catch (final IllegalAccessException e) {
             throw new RuntimeException(e);

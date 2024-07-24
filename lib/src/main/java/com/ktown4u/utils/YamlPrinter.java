@@ -66,11 +66,6 @@ public enum YamlPrinter {
                     continue;
                 }
 
-                if (value1 == null || value2 == null) {
-                    diffBuilder.appendDiff(field.getName(), value1, value2);
-                    continue;
-                }
-
                 diffBuilder.appendDiff(field.getName(), value1, value2);
             }
         } catch (final IllegalAccessException e) {

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum YamlPrinter {
     ;
@@ -60,18 +61,13 @@ public enum YamlPrinter {
                 final Object value1 = field.get(object1);
                 final Object value2 = field.get(object2);
 
-                if (value1 == null && value2 == null) {
+                if (Objects.equals(value1, value2)) {
                     diffBuilder.appendConcur(field.getName(), value1);
                     continue;
                 }
 
                 if (value1 == null || value2 == null) {
                     diffBuilder.appendDiff(field.getName(), value1, value2);
-                    continue;
-                }
-
-                if (value1.equals(value2)) {
-                    diffBuilder.appendConcur(field.getName(), value1);
                     continue;
                 }
 

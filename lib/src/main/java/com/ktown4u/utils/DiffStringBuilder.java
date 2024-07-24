@@ -12,7 +12,7 @@ class DiffStringBuilder {
         return new DiffStringBuilder(new StringBuilder());
     }
 
-    public void appendConcur(final String fieldName, final Object value) {
+    public void appendEqual(final String fieldName, final Object value) {
         diffBuilder.append(fieldName)
                 .append(": ")
                 .append(value)

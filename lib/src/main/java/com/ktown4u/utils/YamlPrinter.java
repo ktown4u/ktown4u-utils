@@ -60,7 +60,7 @@ public enum YamlPrinter {
                 final Object afterValue = field.get(afterObj);
 
                 if (Objects.equals(beforeValue, afterValue)) {
-                    diffBuilder.appendConcur(field.getName(), beforeValue);
+                    diffBuilder.appendEqual(field.getName(), beforeValue);
                 } else {
                     diffBuilder.appendDiff(field.getName(), beforeValue, afterValue);
                 }

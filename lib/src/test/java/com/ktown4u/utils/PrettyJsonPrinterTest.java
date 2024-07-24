@@ -33,6 +33,7 @@ class PrettyJsonPrinterTest {
 
         Approvals.verify(PrettyJsonPrinter.prettyPrint(order).stream()
                 .filter(outLinesIncluding("id"))
+                .filter(outLinesIncluding("customerId"))
                 .filter(outLinesIncluding("description"))
                 .collect(joining("\n"))
         );

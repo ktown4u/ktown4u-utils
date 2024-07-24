@@ -5,6 +5,7 @@ import java.util.List;
 
 class Order {
     private Long id;
+    private Long customerId;
     private List<OrderLineItem> lineItems;
 
     public Long getId() {
@@ -13,6 +14,10 @@ class Order {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public List<OrderLineItem> getLineItems() {

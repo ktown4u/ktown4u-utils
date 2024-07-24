@@ -12,6 +12,7 @@ class YamlPrinterTest {
 
     private final Order order =
             anOrder()
+                    .customerId(1L)
                     .orderLineItems(
                             anOrderLineItem()
                                     .quantity(2L)

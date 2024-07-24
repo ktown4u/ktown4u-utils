@@ -19,12 +19,12 @@ class DiffStringBuilder {
                 .append("\n");
     }
 
-    public void appendDiff(final String fieldName, final Object value1, final Object value2) {
+    public void appendDiff(final String fieldName, final Object beforeValue, final Object afterValue) {
         diffBuilder.append(fieldName)
                 .append(": ")
-                .append(value1)
+                .append(beforeValue)
                 .append(" -> ")
-                .append(value2)
+                .append(afterValue)
                 .append("\n");
     }
 

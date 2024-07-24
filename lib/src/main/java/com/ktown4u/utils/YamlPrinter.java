@@ -49,20 +49,20 @@ public enum YamlPrinter {
         return writeValueAsString(writer, object);
     }
 
-    public static <T> String printDiff(final T object1, final T object2) {
+    public static <T> String printDiff(final T beforeObj, final T afterObj) {
         final DiffStringBuilder diffBuilder = DiffStringBuilder.init();
-        final Field[] fields = object1.getClass().getDeclaredFields();
+        final Field[] fields = beforeObj.getClass().getDeclaredFields();
 
         try {
             for (final Field field : fields) {
                 field.setAccessible(true);
-                final Object value1 = field.get(object1);
-                final Object value2 = field.get(object2);
+                final Object beforeValue = field.get(beforeObj);
+                final Object afterValue = field.get(afterObj);
 
-                if (Objects.equals(value1, value2)) {
-                    diffBuilder.appendConcur(field.getName(), value1);
+                if (Objects.equals(beforeValue, afterValue)) {
+                    diffBuilder.appendConcur(field.getName(), beforeValue);
                 } else {
-                    diffBuilder.appendDiff(field.getName(), value1, value2);
+                    diffBuilder.appendDiff(field.getName(), beforeValue, afterValue);
                 }
             }
         } catch (final IllegalAccessException e) {

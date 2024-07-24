@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public enum YamlPrinter {
@@ -45,6 +46,56 @@ public enum YamlPrinter {
         final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
         final ObjectWriter writer = mapper.writer(filterProvider);
         return writeValueAsString(writer, object);
+    }
+
+    public static <T> String printDiff(final T object1, final T object2) {
+        final Class<?> reflected = object1.getClass();
+
+        final StringBuilder diffBuilder = new StringBuilder();
+        final Field[] fields = reflected.getDeclaredFields();
+
+        try {
+            for (final Field field : fields) {
+                field.setAccessible(true);
+                final Object value1 = field.get(object1);
+                final Object value2 = field.get(object2);
+
+                if (value1 == null && value2 == null) {
+                    diffBuilder.append(field.getName())
+                            .append(": null\n");
+                    continue;
+                }
+
+                if (value1 == null || value2 == null) {
+                    diffBuilder.append(field.getName())
+                            .append(": ")
+                            .append(value1)
+                            .append(" -> ")
+                            .append(value2)
+                            .append("\n");
+                    continue;
+                }
+
+                if (value1.equals(value2)) {
+                    diffBuilder.append(field.getName())
+                            .append(": ")
+                            .append(value1)
+                            .append("\n");
+                    continue;
+                }
+
+                diffBuilder.append(field.getName())
+                        .append(": ")
+                        .append(value1)
+                        .append(" -> ")
+                        .append(value2)
+                        .append("\n");
+            }
+        } catch (final IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        return diffBuilder.toString();
     }
 
     private static String[] splitAndFlatten(final String[] fieldNamesToInclude) {

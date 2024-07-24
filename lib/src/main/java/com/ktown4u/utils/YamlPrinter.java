@@ -50,10 +50,8 @@ public enum YamlPrinter {
     }
 
     public static <T> String printDiff(final T object1, final T object2) {
-        final Class<?> reflected = object1.getClass();
-
         final DiffStringBuilder diffBuilder = DiffStringBuilder.init();
-        final Field[] fields = reflected.getDeclaredFields();
+        final Field[] fields = object1.getClass().getDeclaredFields();
 
         try {
             for (final Field field : fields) {

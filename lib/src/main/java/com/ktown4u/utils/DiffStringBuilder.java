@@ -1,11 +1,15 @@
 package com.ktown4u.utils;
 
-public class DiffStringBuilder {
+class DiffStringBuilder {
 
-    private final StringBuilder diffBuilder = new StringBuilder();
+    private final StringBuilder diffBuilder;
+
+    private DiffStringBuilder(StringBuilder diffBuilder) {
+        this.diffBuilder = diffBuilder;
+    }
 
     public static DiffStringBuilder init() {
-        return new DiffStringBuilder();
+        return new DiffStringBuilder(new StringBuilder());
     }
 
     public void appendConcur(final String fieldName, final Object value) {

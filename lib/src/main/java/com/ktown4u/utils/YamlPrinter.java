@@ -63,10 +63,9 @@ public enum YamlPrinter {
 
                 if (Objects.equals(value1, value2)) {
                     diffBuilder.appendConcur(field.getName(), value1);
-                    continue;
+                } else {
+                    diffBuilder.appendDiff(field.getName(), value1, value2);
                 }
-
-                diffBuilder.appendDiff(field.getName(), value1, value2);
             }
         } catch (final IllegalAccessException e) {
             throw new RuntimeException(e);

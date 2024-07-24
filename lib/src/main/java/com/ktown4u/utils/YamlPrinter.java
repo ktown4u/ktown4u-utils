@@ -62,7 +62,9 @@ public enum YamlPrinter {
 
                 if (value1 == null && value2 == null) {
                     diffBuilder.append(field.getName())
-                            .append(": null\n");
+                            .append(": ")
+                            .append(value1)
+                            .append("\n");
                     continue;
                 }
 

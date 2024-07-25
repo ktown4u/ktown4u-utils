@@ -37,15 +37,21 @@ class Diff {
         String result = "";
 
         for (final DiffRow row : rows) {
-            final String s;
-            if (DiffRow.Tag.EQUAL == row.getTag()) s = row.getOldLine() + "\n";
-            else if (DiffRow.Tag.CHANGE == row.getTag()) s = "+ " + row.getOldLine() + "\n";
-            else if (DiffRow.Tag.DELETE == row.getTag()) s = "-- " + row.getOldLine() + "\n";
-            else if (DiffRow.Tag.INSERT == row.getTag()) s = "++ " + row.getNewLine() + "\n";
-            else s = "";
+            final String s = formatted(row);
             result = result + s;
         }
 
         return result;
+    }
+
+    private String formatted(final DiffRow row) {
+        final String s = switch (row.getTag()) {
+            case EQUAL -> row.getOldLine() + "\n";
+            case CHANGE -> "+ " + row.getOldLine() + "\n";
+            case DELETE -> "-- " + row.getOldLine() + "\n";
+            case INSERT -> "++ " + row.getNewLine() + "\n";
+            default -> "";
+        };
+        return s;
     }
 }

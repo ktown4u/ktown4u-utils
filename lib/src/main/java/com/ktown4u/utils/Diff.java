@@ -34,14 +34,9 @@ class Diff {
                 Arrays.asList(after.split("\n"))
         );
 
-        String result = "";
-
-        for (final DiffRow row : rows) {
-            final String s = formatted(row);
-            result = result + s;
-        }
-
-        return result;
+        return rows.stream()
+                .map(this::formatted)
+                .reduce("", String::concat);
     }
 
     private String formatted(final DiffRow row) {

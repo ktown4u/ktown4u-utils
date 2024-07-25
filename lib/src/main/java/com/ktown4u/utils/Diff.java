@@ -45,13 +45,12 @@ class Diff {
     }
 
     private String formatted(final DiffRow row) {
-        final String s = switch (row.getTag()) {
+        return switch (row.getTag()) {
             case EQUAL -> row.getOldLine() + "\n";
             case CHANGE -> "+ " + row.getOldLine() + "\n";
             case DELETE -> "-- " + row.getOldLine() + "\n";
             case INSERT -> "++ " + row.getNewLine() + "\n";
             default -> "";
         };
-        return s;
     }
 }

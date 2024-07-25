@@ -238,7 +238,7 @@ void multiple_lines_with_depth() {
           new IndentiedLine(2, "key12", "value2")
   );
   String formattedLine = lineFormatter.formatLineWithWhitespaces("key", null);
-  for (IndentiedLine line : lines) {
+  for (final IndentiedLine line : lines) {
     formattedLine += lineFormatter.formatLineWithWhitespaces(line.depth, line.name, line.value);
   }
   Approvals.verify(formattedLine);
@@ -257,3 +257,39 @@ key                                                                         null
         key11                                                             value1
         key12                                                             value2
 ```
+
+## Diff between strings(v1.6.0)
+
+- 서로 다른 문자열을 전달하면 두 문자열의 차이를 반환한다
+
+사용 예시
+
+```java
+
+@Test
+void diff() {
+  final String before = """
+          totalPrice: 0
+          totalDiscountPrice: 0
+          mileageToBeEarned: 0
+          """;
+  final String after = """
+          totalPrice: 100
+          totalDiscountPrice: 10
+          """;
+
+  Approvals.verify(Diff.between(before, after));
+}
+```
+
+approved.text
+
+```text
++ totalPrice: 0 -> 100
++ totalDiscountPrice: 0 -> 10
+-- mileageToBeEarned: 0
+```
+
+`+`: 수정된 라인  
+`++`: 추가된 라인  
+`--`: 삭제된 라인

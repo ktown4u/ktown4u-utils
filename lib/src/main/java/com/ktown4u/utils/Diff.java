@@ -14,13 +14,7 @@ class Diff {
     private Diff(final String before, final String after) {
         this.before = before;
         this.after = after;
-        generator = DiffRowGenerator.create()
-                .showInlineDiffs(true)
-                .mergeOriginalRevised(true)
-                .inlineDiffByWord(true)
-                .oldTag(f -> f ? "" : " ->")
-                .newTag(f -> f ? " " : "")
-                .build();
+        generator = buildGenerator();
     }
 
     public static Diff between(final String before, final String after) {
@@ -29,11 +23,28 @@ class Diff {
 
     @Override
     public String toString() {
-        final List<DiffRow> rows = generator.generateDiffRows(
+        final List<DiffRow> rows = getDiffRows();
+        return reduceToString(rows);
+    }
+
+    private DiffRowGenerator buildGenerator() {
+        return DiffRowGenerator.create()
+                .showInlineDiffs(true)
+                .mergeOriginalRevised(true)
+                .inlineDiffByWord(true)
+                .oldTag(f -> f ? "" : " ->")
+                .newTag(f -> f ? " " : "")
+                .build();
+    }
+
+    private List<DiffRow> getDiffRows() {
+        return generator.generateDiffRows(
                 Arrays.asList(before.split("\n")),
                 Arrays.asList(after.split("\n"))
         );
+    }
 
+    private String reduceToString(final List<DiffRow> rows) {
         return rows.stream()
                 .map(this::formatted)
                 .reduce("", String::concat);

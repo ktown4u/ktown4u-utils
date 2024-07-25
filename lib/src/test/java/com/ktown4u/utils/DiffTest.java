@@ -66,4 +66,18 @@ public class DiffTest {
                 items: []
                 """;
     }
+
+    private class Diff {
+        private final String before;
+        private final String after;
+
+        public Diff(final String before, final String after) {
+            this.before = before;
+            this.after = after;
+        }
+
+        public String print() {
+            throw new IllegalStateException("Diff::print not implemented yet");
+        }
+    }
 }

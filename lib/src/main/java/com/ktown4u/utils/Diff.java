@@ -54,7 +54,7 @@ class Diff {
         return switch (row.getTag()) {
             case EQUAL -> row.getOldLine() + "\n";
             case CHANGE -> "+ " + row.getOldLine() + "\n";
-            case DELETE -> "-- " + row.getOldLine() + "\n";
+            case DELETE -> "-- " + row.getOldLine().replace(" ->", "") + "\n";
             case INSERT -> "++ " + row.getNewLine() + "\n";
             default -> "";
         };

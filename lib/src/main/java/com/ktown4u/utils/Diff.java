@@ -20,8 +20,8 @@ class Diff {
                 .showInlineDiffs(true)
                 .mergeOriginalRevised(true)
                 .inlineDiffByWord(true)
-                .oldTag(f -> f ? "" : " -> ")
-                .newTag(f -> "")
+                .oldTag(f -> f ? "" : " ->")
+                .newTag(f -> f ? " " : "")
                 .build();
 
         final List<DiffRow> rows = generator.generateDiffRows(

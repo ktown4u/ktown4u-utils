@@ -11,9 +11,7 @@ public class DiffTest {
         final String before = before();
         final String after = after();
 
-        final String result = Diff.between(before, after).print();
-
-        Approvals.verify(result);
+        Approvals.verify(Diff.between(before, after));
     }
 
     private String after() {

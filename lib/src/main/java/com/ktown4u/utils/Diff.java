@@ -27,7 +27,8 @@ class Diff {
         return new Diff(before, after);
     }
 
-    public String print() {
+    @Override
+    public String toString() {
         final List<DiffRow> rows = generator.generateDiffRows(
                 Arrays.asList(before.split("\n")),
                 Arrays.asList(after.split("\n"))

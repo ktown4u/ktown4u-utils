@@ -28,13 +28,13 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
 
+    // diff utils
+    implementation("io.github.java-diff-utils:java-diff-utils:4.12")
+
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
     testImplementation("com.approvaltests:approvaltests:22.3.3")
     testImplementation("org.assertj:assertj-core:3.25.2")
-
-    // diff utils
-    testImplementation("io.github.java-diff-utils:java-diff-utils:4.12")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 

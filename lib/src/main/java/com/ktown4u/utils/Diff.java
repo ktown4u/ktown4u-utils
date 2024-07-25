@@ -10,9 +10,13 @@ class Diff {
     private final String before;
     private final String after;
 
-    public Diff(final String before, final String after) {
+    private Diff(final String before, final String after) {
         this.before = before;
         this.after = after;
+    }
+
+    public static Diff between(final String before, final String after) {
+        return new Diff(before, after);
     }
 
     public String print() {

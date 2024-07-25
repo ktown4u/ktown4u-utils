@@ -2,13 +2,12 @@ package com.ktown4u.utils;
 
 import com.github.difflib.text.DiffRow;
 import com.github.difflib.text.DiffRowGenerator;
+import org.approvaltests.Approvals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class DiffTest {
     @Test
@@ -19,7 +18,7 @@ public class DiffTest {
 
         final String result = new Diff(before, after).print();
 
-        assertThat(result).isNotBlank();
+        Approvals.verify(result);
     }
 
     private String after() {
@@ -86,8 +85,8 @@ public class DiffTest {
                     .showInlineDiffs(true)
                     .mergeOriginalRevised(true)
                     .inlineDiffByWord(true)
-                    .oldTag(f -> "")
-                    .newTag(f -> f ? " -> " : "")
+                    .oldTag(f -> f ? "" : " -> ")
+                    .newTag(f -> "")
                     .build();
 
             final List<DiffRow> rows = generator.generateDiffRows(

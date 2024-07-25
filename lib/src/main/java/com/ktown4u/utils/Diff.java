@@ -37,10 +37,13 @@ class Diff {
         String result = "";
 
         for (final DiffRow row : rows) {
-            if (DiffRow.Tag.EQUAL == row.getTag()) result += row.getOldLine() + "\n";
-            if (DiffRow.Tag.CHANGE == row.getTag()) result += "+ " + row.getOldLine() + "\n";
-            if (DiffRow.Tag.DELETE == row.getTag()) result += "-- " + row.getOldLine() + "\n";
-            if (DiffRow.Tag.INSERT == row.getTag()) result += "++ " + row.getNewLine() + "\n";
+            final String s;
+            if (DiffRow.Tag.EQUAL == row.getTag()) s = row.getOldLine() + "\n";
+            else if (DiffRow.Tag.CHANGE == row.getTag()) s = "+ " + row.getOldLine() + "\n";
+            else if (DiffRow.Tag.DELETE == row.getTag()) s = "-- " + row.getOldLine() + "\n";
+            else if (DiffRow.Tag.INSERT == row.getTag()) s = "++ " + row.getNewLine() + "\n";
+            else s = "";
+            result = result + s;
         }
 
         return result;

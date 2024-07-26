@@ -24,7 +24,8 @@ public class GitDiff {
     @Override
     public String toString() {
         final List<DiffRow> rows = getDiffRows();
-        return reduceToString(rows);
+        final String result = reduceToString(rows);
+        return "```diff\n" + result + "```";
     }
 
     private DiffRowGenerator buildGenerator() {

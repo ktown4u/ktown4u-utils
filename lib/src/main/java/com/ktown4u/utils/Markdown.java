@@ -2,30 +2,27 @@ package com.ktown4u.utils;
 
 import com.github.difflib.text.DiffRow;
 import com.github.difflib.text.DiffRowGenerator;
+import org.approvaltests.core.Verifiable;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class GitDiff {
-    private final String before;
-    private final String after;
+class Markdown {
+    private final String title;
     private final DiffRowGenerator generator;
 
-    private GitDiff(final String before, final String after) {
-        this.before = before;
-        this.after = after;
+    private Markdown(final String title) {
+        this.title = title;
         generator = buildGenerator();
     }
 
-    public static GitDiff between(final String before, final String after) {
-        return new GitDiff(before, after);
+    public static Markdown title(final String title) {
+        return new Markdown(title);
     }
 
-    @Override
-    public String toString() {
-        final List<DiffRow> rows = getDiffRows();
-        final String result = reduceToString(rows);
-        return "```diff\n" + result + "```";
+    public Verifiable diff(final String before, final String after) {
+        final List<DiffRow> diffRows = getDiffRows(before, after);
+        return new MarkdownParagraph(title, reduceToString(diffRows));
     }
 
     private DiffRowGenerator buildGenerator() {
@@ -36,7 +33,7 @@ public class GitDiff {
                 .build();
     }
 
-    private List<DiffRow> getDiffRows() {
+    private List<DiffRow> getDiffRows(final String before, final String after) {
         return generator.generateDiffRows(
                 Arrays.asList(before.split("\n")),
                 Arrays.asList(after.split("\n"))
@@ -44,9 +41,10 @@ public class GitDiff {
     }
 
     private String reduceToString(final List<DiffRow> rows) {
-        return rows.stream()
+        final String reduced = rows.stream()
                 .map(this::formatted)
                 .reduce("", String::concat);
+        return "```diff\n" + reduced + "```";
     }
 
     private String formatted(final DiffRow row) {
@@ -58,4 +56,5 @@ public class GitDiff {
             default -> "";
         };
     }
+
 }

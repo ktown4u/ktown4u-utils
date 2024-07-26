@@ -20,7 +20,9 @@ public class DiffTest {
         final String before = before();
         final String after = after();
 
-        Approvals.verify(new MarkdownParagraph("두 문자열을 비교한다.", GitDiff.between(before, after).toString()));
+        Approvals.verify(
+                Markdown.title("두 문자열을 비교한다.")
+                        .diff(before, after));
     }
 
     private String after() {

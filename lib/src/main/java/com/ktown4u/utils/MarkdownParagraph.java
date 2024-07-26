@@ -6,11 +6,13 @@ import org.approvaltests.core.VerifyParameters;
 
 public class MarkdownParagraph implements Verifiable {
     private final String title;
-    private final String paragraph;
+    private final String description;
+    private final String diff;
 
-    public MarkdownParagraph(final String title, final String paragraph) {
+    public MarkdownParagraph(final String title, final String description, final String diff) {
         this.title = title;
-        this.paragraph = paragraph;
+        this.description = description;
+        this.diff = diff;
     }
 
     @Override
@@ -20,6 +22,6 @@ public class MarkdownParagraph implements Verifiable {
 
     @Override
     public String toString() {
-        return String.format("# %s\n%s", title, paragraph);
+        return String.format("# %s\n%s\n```diff\n%s\n```", title, description, diff);
     }
 }

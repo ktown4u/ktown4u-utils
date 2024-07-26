@@ -10,6 +10,7 @@ import java.util.List;
 class Markdown {
     private final String title;
     private final DiffRowGenerator generator;
+    private String description = "";
 
     private Markdown(final String title) {
         this.title = title;
@@ -20,9 +21,14 @@ class Markdown {
         return new Markdown(title);
     }
 
+    public Markdown description(final String description) {
+        this.description = description;
+        return this;
+    }
+
     public Verifiable diff(final String before, final String after) {
         final List<DiffRow> diffRows = getDiffRows(before, after);
-        return new MarkdownParagraph(title, reduceToString(diffRows));
+        return new MarkdownParagraph(title, description, reduceToString(diffRows));
     }
 
     private DiffRowGenerator buildGenerator() {
@@ -41,10 +47,9 @@ class Markdown {
     }
 
     private String reduceToString(final List<DiffRow> rows) {
-        final String reduced = rows.stream()
+        return rows.stream()
                 .map(this::formatted)
                 .reduce("", String::concat);
-        return "```diff\n" + reduced + "```";
     }
 
     private String formatted(final DiffRow row) {
@@ -56,5 +61,4 @@ class Markdown {
             default -> "";
         };
     }
-
 }

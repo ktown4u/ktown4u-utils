@@ -1,4 +1,6 @@
 # 두 문자열을 비교한다.
+
+두 문자열을 비교하여 markdown diff 포맷으로 차이를 확인한다.
 ```diff
 - totalPrice: 0
 + totalPrice: 100
@@ -33,4 +35,5 @@ tube:
 +   saleStatusCode: "ON_SALE"
 +   isAdultOnly: true
 +   additionalItems: []
+
 ```

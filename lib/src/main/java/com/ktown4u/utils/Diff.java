@@ -6,7 +6,7 @@ import com.github.difflib.text.DiffRowGenerator;
 import java.util.Arrays;
 import java.util.List;
 
-class Diff {
+public class Diff {
     private final String before;
     private final String after;
     private final DiffRowGenerator generator;

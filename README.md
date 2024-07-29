@@ -293,3 +293,21 @@ approved.text
 `+`: 수정된 라인  
 `++`: 추가된 라인  
 `--`: 삭제된 라인
+
+## Diff in Markdown
+
+- 서로 다른 문자열을 전달하면 approval test를 통해 두 문자열의 차이를 볼 수 있는 .md 파일을 자동 생성한다.
+
+```java
+    @Test
+    @DisplayName("두 문자열을 비교한다")
+    void git_diff() {
+        final String before = before();
+        final String after = after();
+
+        Approvals.verify(
+                Markdown.title("두 문자열을 비교한다.")
+                        .description("두 문자열을 비교하여 markdown diff 포맷으로 차이를 확인한다.")
+                        .diff(before, after));
+    }
+```

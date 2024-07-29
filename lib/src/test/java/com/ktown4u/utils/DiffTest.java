@@ -14,6 +14,18 @@ public class DiffTest {
         Approvals.verify(Diff.between(before, after));
     }
 
+    @Test
+    @DisplayName("두 문자열을 비교한다")
+    void git_diff() {
+        final String before = before();
+        final String after = after();
+
+        Approvals.verify(
+                Markdown.title("두 문자열을 비교한다.")
+                        .description("두 문자열을 비교하여 markdown diff 포맷으로 차이를 확인한다.")
+                        .diff(before, after));
+    }
+
     private String after() {
         return """
                 totalPrice: 100

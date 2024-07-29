@@ -294,7 +294,7 @@ approved.text
 `++`: 추가된 라인  
 `--`: 삭제된 라인
 
-## Diff in Markdown
+## Diff in Markdown(v1.7.0)
 
 - 서로 다른 문자열을 전달하면 approval test를 통해 두 문자열의 차이를 볼 수 있는 .md 파일을 자동 생성한다.
 

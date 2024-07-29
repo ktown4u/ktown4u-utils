@@ -51,3 +51,11 @@ java {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
+
+tasks.named<Javadoc>("javadoc") {
+    options {
+        isFailOnError = false
+        encoding = "UTF-8"
+    }
+}
+

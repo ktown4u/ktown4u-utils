@@ -27,7 +27,7 @@ public class DiffTest {
         Approvals.verify(
                 Markdown.title("두 객체를 비교한다.")
                         .description("두 객체를 비교하여 markdown diff 포맷으로 차이를 확인한다.")
-                        .excluding("id", "description")
+                        .excludingFields("id", "description")
                         .diff(before, after));
     }
 

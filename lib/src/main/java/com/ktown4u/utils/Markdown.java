@@ -27,7 +27,7 @@ class Markdown {
         return this;
     }
 
-    public Markdown excluding(final String... fields) {
+    public Markdown excludingFields(final String... fields) {
         fieldsToIgnore = fields;
         return this;
     }

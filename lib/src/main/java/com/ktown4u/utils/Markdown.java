@@ -11,6 +11,7 @@ class Markdown {
     private final String title;
     private final DiffRowGenerator generator;
     private String description = "";
+    private String[] fieldsToIgnore = {};
 
     private Markdown(final String title) {
         this.title = title;
@@ -26,9 +27,18 @@ class Markdown {
         return this;
     }
 
-    public Verifiable diff(final String before, final String after) {
-        final List<DiffRow> diffRows = getDiffRows(before, after);
+    public Markdown excluding(final String... fields) {
+        fieldsToIgnore = fields;
+        return this;
+    }
+
+    public Verifiable diff(final Object before, final Object after) {
+        final List<DiffRow> diffRows = getDiffRows(format(before), format(after));
         return new MarkdownParagraph(title, description, reduceToString(diffRows));
+    }
+
+    private String format(final Object before) {
+        return YamlPrinter.printWithExclusions(before, fieldsToIgnore).replaceAll("(?m)^- ", "* ");
     }
 
     private DiffRowGenerator buildGenerator() {

@@ -115,7 +115,7 @@ class SteamUtilsTest {
         assertThat(users).containsExactly(new User("msbaek", 1l), new User("msbaek2", 2l));
     }
 
-    private Collection<User> listUsersBy(Collection<Long> ids) {
+    private Collection<User> listUsersBy(final Collection<Long> ids) {
         return sourceCollection.stream()
                 .filter(user -> ids.contains(user.id()))
                 .toList();
@@ -211,9 +211,9 @@ name value
 
 @Test
 void neutralizeLocalDateTime() {
-    String string = "GoodsFamily{id=1, name='name', createdBy=1, updatedBy=null, createdAt=2021-08-01T00:00:00.000000, updatedAt=null, goodsFamily2Goods=[]}";
+    final String string = "GoodsFamily{id=1, name='name', createdBy=1, updatedBy=null, createdAt=2021-08-01T00:00:00.000000, updatedAt=null, goodsFamily2Goods=[]}";
 
-    String result = Neutralizer.localDateTime(string);
+  final String result = Neutralizer.localDateTime(string);
 
     assertThat(result).contains(Neutralizer.LOCAL_DATE_TIME_REPLACEMENT);
 }
@@ -230,8 +230,8 @@ void neutralizeLocalDateTime() {
 ```java
 @Test
 void multiple_lines_with_depth() {
-  LineFormatter lineFormatter = new LineFormatter(80);
-  List<IndentiedLine> lines = List.of(
+  final LineFormatter lineFormatter = new LineFormatter(80);
+  final List<IndentiedLine> lines = List.of(
           new IndentiedLine(1, "key1", "value1"),
           new IndentiedLine(1, "key2", "value2"),
           new IndentiedLine(2, "key11", "value1"),
@@ -300,14 +300,15 @@ approved.text
 
 ```java
     @Test
-    @DisplayName("두 문자열을 비교한다")
+@DisplayName("두 객체를 비교한다")
     void git_diff() {
-        final String before = before();
-        final String after = after();
+  final Order before = beforeOrder();
+  final Order after = afterOrder();
 
         Approvals.verify(
-                Markdown.title("두 문자열을 비교한다.")
-                        .description("두 문자열을 비교하여 markdown diff 포맷으로 차이를 확인한다.")
+                Markdown.title("두 객체를 비교한다.")
+                        .description("두 객체를 비교하여 markdown diff 포맷으로 차이를 확인한다.")
+                        .excluding("id", "description")
                         .diff(before, after));
-    }
+}
 ```

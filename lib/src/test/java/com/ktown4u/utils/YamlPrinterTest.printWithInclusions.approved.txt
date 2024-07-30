@@ -1,0 +1,8 @@
+---
+lineItems:
+- product:
+    description: "Bright, citrusy, with a hint of cocoa and a smooth finish."
+    price: 8000
+- product:
+    description: "2-shot original blend Americano."
+    price: 5000

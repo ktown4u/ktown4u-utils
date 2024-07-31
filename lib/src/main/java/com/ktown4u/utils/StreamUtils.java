@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Stream Pipeline을 사용하는 유틸리티 함수들을 모아놓은 클래스
  */
-public class StreamUtils {
+public enum StreamUtils {
+    ;
+
     /**
      * Collection에서 조건에 맞는 첫번째 아이템을 Optional로 반환한다.
      *
@@ -46,10 +49,10 @@ public class StreamUtils {
      * @param <T>              sourceList의 타입
      * @return id 컬렉션
      */
-    public static <T> Collection<Long> fetchIds(Collection<T> sourceCollection, Function<T, Long> idExtractor) {
+    public static <T> Collection<Long> fetchIds(final Collection<T> sourceCollection, final Function<T, Long> idExtractor) {
         return sourceCollection.stream()
                 .map(idExtractor)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /**
@@ -61,8 +64,8 @@ public class StreamUtils {
      * @param <T>              sourceList의 타입
      * @return idExtractor가 반환한 id 값들을 갖는 객체 컬렉션
      */
-    public static <T> Collection<T> fetchItems(Collection<T> sourceCollection, Function<T, Long> idExtractor, Function<Collection<Long>, Collection<T>> fetchFunction) {
-        Collection<Long> ids = fetchIds(sourceCollection, idExtractor);
+    public static <T> Collection<T> fetchItems(final Collection<T> sourceCollection, final Function<T, Long> idExtractor, final Function<Collection<Long>, Collection<T>> fetchFunction) {
+        final Collection<Long> ids = fetchIds(sourceCollection, idExtractor);
         return fetchFunction.apply(ids);
     }
 }

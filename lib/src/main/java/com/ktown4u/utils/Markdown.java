@@ -63,12 +63,24 @@ class Markdown {
     }
 
     private String formatted(final DiffRow row) {
-        return switch (row.getTag()) {
-            case EQUAL -> row.getOldLine() + "\n";
-            case CHANGE -> "- " + row.getOldLine() + "\n" + "+ " + row.getNewLine() + "\n";
-            case DELETE -> "- " + row.getOldLine() + "\n";
-            case INSERT -> "+ " + row.getNewLine() + "\n";
-            default -> "";
-        };
+        final String result;
+        switch (row.getTag()) {
+            case EQUAL:
+                result = row.getOldLine() + "\n";
+                break;
+            case CHANGE:
+                result = "- " + row.getOldLine() + "\n" + "+ " + row.getNewLine() + "\n";
+                break;
+            case DELETE:
+                result = "- " + row.getOldLine() + "\n";
+                break;
+            case INSERT:
+                result = "+ " + row.getNewLine() + "\n";
+                break;
+            default:
+                result = "";
+                break;
+        }
+        return result;
     }
 }

@@ -51,12 +51,24 @@ public class Diff {
     }
 
     private String formatted(final DiffRow row) {
-        return switch (row.getTag()) {
-            case EQUAL -> row.getOldLine() + "\n";
-            case CHANGE -> "+ " + row.getOldLine() + "\n";
-            case DELETE -> "-- " + row.getOldLine().replace(" ->", "") + "\n";
-            case INSERT -> "++ " + row.getNewLine() + "\n";
-            default -> "";
-        };
+        final String result;
+        switch (row.getTag()) {
+            case EQUAL:
+                result = row.getOldLine() + "\n";
+                break;
+            case CHANGE:
+                result = "+ " + row.getOldLine() + "\n";
+                break;
+            case DELETE:
+                result = "-- " + row.getOldLine().replace(" ->", "") + "\n";
+                break;
+            case INSERT:
+                result = "++ " + row.getNewLine() + "\n";
+                break;
+            default:
+                result = "";
+                break;
+        }
+        return result;
     }
 }

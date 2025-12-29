@@ -2,31 +2,35 @@ package com.ktown4u.utils;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectWriter;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.ser.FilterProvider;
+import tools.jackson.databind.ser.std.SimpleBeanPropertyFilter;
+import tools.jackson.databind.ser.std.SimpleFilterProvider;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 import java.util.Arrays;
 
 public enum YamlPrinter {
     ;
-    private static final ObjectMapper mapper;
+    private static final YAMLMapper mapper;
 
     static {
-        mapper = new ObjectMapper(new YAMLFactory());
-        mapper.findAndRegisterModules();
-        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE); // Disable auto-detection for all methods
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY); // Enable visibility for fields
-        // @JsonFilter가 붙은 클래스만 필터링할 수 있는 것 같음. 모든 클래스에 쉽게 필터링을 적용하기 위해 Object에 mix-in 적용.
-        mapper.addMixIn(Object.class, PropertyFilterMixIn.class);
+        mapper = YAMLMapper.builder()
+                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+                .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                // Jackson 3에서 기본값이 true로 변경됨. Jackson 2와 동일한 필드 순서 유지를 위해 비활성화
+                .disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                .changeDefaultVisibility(vc -> vc
+                        .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                        .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                        .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
+                        .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                        .withFieldVisibility(JsonAutoDetect.Visibility.ANY))
+                .addMixIn(Object.class, PropertyFilterMixIn.class)
+                .build();
     }
 
     public static String print(final Object object) {
@@ -37,28 +41,20 @@ public enum YamlPrinter {
         final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(fieldNamesToExclude);
         final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
         final ObjectWriter writer = mapper.writer(filterProvider);
-        return writeValueAsString(writer, object);
+        return writer.writeValueAsString(object);
     }
 
     public static String printWithInclusions(final Object object, final String... fieldPathToInclude) {
         final SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(splitAndFlatten(fieldPathToInclude));
         final FilterProvider filterProvider = new SimpleFilterProvider().addFilter("PropertyFilter", filter);
         final ObjectWriter writer = mapper.writer(filterProvider);
-        return writeValueAsString(writer, object);
+        return writer.writeValueAsString(object);
     }
 
     private static String[] splitAndFlatten(final String[] fieldNamesToInclude) {
         return Arrays.stream(fieldNamesToInclude)
                 .flatMap(s -> Arrays.stream(s.split("\\.")))
                 .toArray(String[]::new);
-    }
-
-    private static String writeValueAsString(final ObjectWriter writer, final Object object) {
-        try {
-            return writer.writeValueAsString(object);
-        } catch (final JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @JsonFilter("PropertyFilter")

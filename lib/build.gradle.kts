@@ -19,14 +19,12 @@ publishing {
     }
 }
 
-val jacksonVersion by extra { "2.16.1" }
+val jacksonVersion by extra { "3.0.3" }
 
 dependencies {
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+    implementation("tools.jackson.core:jackson-core:$jacksonVersion")
+    implementation("tools.jackson.core:jackson-databind:$jacksonVersion")
+    implementation("tools.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     implementation("com.approvaltests:approvaltests:22.3.3")
 
     // diff utils
@@ -41,17 +39,11 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
     withJavadocJar()
     withSourcesJar()
-}
-
-tasks.withType<JavaCompile> {
-    if (name.contains("Test")) {
-        sourceCompatibility = JavaVersion.VERSION_17.toString()
-        targetCompatibility = JavaVersion.VERSION_17.toString()
-    }
 }
 
 tasks.named<Test>("test") {

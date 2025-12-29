@@ -294,6 +294,14 @@ approved.text
 `++`: 추가된 라인  
 `--`: 삭제된 라인
 
+## Jackson 3 업그레이드(v1.8.0)
+
+- Spring Boot 4.0.1 호환을 위해 Jackson 2.16.1에서 3.0.3으로 업그레이드
+- 주요 변경사항:
+  - Group ID 변경: `com.fasterxml.jackson` → `tools.jackson`
+  - `ObjectMapper` → `JsonMapper`/`YAMLMapper` (immutable Builder 패턴)
+  - `jackson-datatype-jsr310` 의존성 제거 (jackson-databind에 내장)
+
 ## Diff in Markdown(v1.7.0)
 
 - 서로 다른 문자열을 전달하면 approval test를 통해 두 문자열의 차이를 볼 수 있는 .md 파일을 자동 생성한다.

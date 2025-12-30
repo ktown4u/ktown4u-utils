@@ -30,7 +30,8 @@ dependencies {
     implementation("io.github.java-diff-utils:java-diff-utils:4.12")
 
     // Use JUnit Jupiter for testing.
-    testImplementation(libs.junit.jupiter)
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.25.2")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

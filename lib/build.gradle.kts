@@ -12,26 +12,26 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.ktown4u"
             artifactId = "utils"
-            version = "1.8.0"
+            version = "1.8.1"
 
             from(components["java"])
         }
     }
 }
 
-val jacksonVersion by extra { "3.0.3" }
-
 dependencies {
-    implementation("tools.jackson.core:jackson-core:$jacksonVersion")
-    implementation("tools.jackson.core:jackson-databind:$jacksonVersion")
-    implementation("tools.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+    implementation(platform("tools.jackson:jackson-bom:3.0.3"))
+    implementation("tools.jackson.core:jackson-core")
+    implementation("tools.jackson.core:jackson-databind")
+    implementation("tools.jackson.dataformat:jackson-dataformat-yaml")
     implementation("com.approvaltests:approvaltests:22.3.3")
 
     // diff utils
     implementation("io.github.java-diff-utils:java-diff-utils:4.12")
 
     // Use JUnit Jupiter for testing.
-    testImplementation(libs.junit.jupiter)
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.25.2")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
